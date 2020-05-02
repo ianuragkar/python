@@ -1,5 +1,5 @@
 org_img = "https://upload.wikimedia.org/wikipedia/commons/5/50/Vd-Orig.png"     #Image file
-kernel_number = 8       #Select kernel number
+kernel_number = 1       #Select kernel number
 
 kernel_name_dict = {1:'Identity',
 2:'Edge Enhance',
@@ -48,7 +48,7 @@ kernel_total = 0    #sum of kernel elements for normalization
 for kx in range(0,np.shape(kernel)[0]):     #Convolute the pixel with the kernel
     for ky in range(0,np.shape(kernel)[1]):
         kernel_total += kernel[kx,ky]
-kernel_total = 1 if kernel_total > 1 else kernel_total
+kernel_total = 1 if kernel_total <= 0 else kernel_total
 
 def convPixels(channel):
     for j in range(0,edge):     #copy edge pixels
@@ -66,7 +66,7 @@ def convPixels(channel):
                     nx = x + kx - edge      #evaluate corresponding position in image for convolution
                     ny = y + ky - edge
                     pixel = img[nx,ny]
-            acc[channel] += pixel[channel] * kernel[kx,ky]
+                    acc[channel] += pixel[channel] * kernel[kx][ky]
             filImg[x,y][channel] = acc[channel]/kernel_total
     return filImg[channel]
 
